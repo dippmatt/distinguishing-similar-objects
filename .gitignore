@@ -1,4 +1,6 @@
 .vscode/
 venv/
 dataset/t-less_v2/
+dataset/tless_train_pbr/
 runs/
+third_party/

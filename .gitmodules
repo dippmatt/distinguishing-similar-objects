@@ -1,0 +1,6 @@
+[submodule "third_party/bop_toolkit"]
+	path = third_party/bop_toolkit
+	url = https://github.com/thodan/bop_toolkit.git
+[submodule "third_party/cocoapi"]
+	path = third_party/cocoapi
+	url = https://github.com/MartinSmeyer/cocoapi.git
