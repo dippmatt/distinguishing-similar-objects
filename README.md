@@ -12,11 +12,32 @@ All found literatur is documented in [literature.md](./documentation/literature.
 # Setup
 
 ## Dependencies:
-Debian Packages: `python >= V.3.10` `python3.10-venv` `build-essential` `git`
+If using Python > V.3.8, a separate virtual environment for the BOP Toolkit is required, as described in Step 2.
 
-run `setup.sh` to..
+If using Python <= 3.8 only one virtual environment is required.
 
-1. Create a python virtual envonment
+## Setup for Ubuntu 22.04
+
+Debian Packages: `python3.10-venv` `python3-dev` `python3.8-venv` `build-essential` `git` `cmake`
+
+
+**1. Python dependencies for this repo:**
+
+- `python3 -m venv venv`
+
+- `source venv/bin/activate`
+
+- `python3 -m pip install -r requirements.txt`
+
+**2. Build BOP Toolkit Requriements:**
+
+- Run `export BOP_PATH=<path of this repo>/dataset/tless_train_pbr/train_pbr`
+
+- `python3.8 -m venv bop_toolkit_venv`
+
+- `source bop_toolkit_venv/bin/activate`
+
+- `python3 -m pip install -r third_party/bop_toolkit_venv/requirements.txt`
 
 
 # Here is the manual 
