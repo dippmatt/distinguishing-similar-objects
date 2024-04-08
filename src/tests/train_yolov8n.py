@@ -1,5 +1,9 @@
 # Test YOLOv8 inference
 from ultralytics import YOLO
+from pathlib import Path
+
+dataset_definition = Path(__file__).resolve().parent / Path("..", "..", "dataset", "t-less-reduced.yaml")
+assert dataset_definition.exists(), f"{dataset_definition} does not exist"
 
 # Create a new YOLO model from scratch
 model = YOLO('yolov8n.yaml')
@@ -8,7 +12,7 @@ model = YOLO('yolov8n.yaml')
 model = YOLO('yolov8n.pt')
 
 # Train the model using the 'coco128.yaml' dataset for 3 epochs
-results = model.train(data='t-less-reduced.yaml', epochs=25, imgsz=640, batch=32)
+#results = model.train(data=str(dataset_definition), epochs=25, imgsz=640, batch=32)
 
 # Evaluate the model's performance on the validation set
 results = model.val()

@@ -18,7 +18,7 @@ If using Python <= 3.8 only one virtual environment is required.
 
 ## Setup for Ubuntu 22.04
 
-Debian Packages: `python3.10-venv` `python3-dev` `python3.8-venv` `build-essential` `git` `cmake`
+Debian Packages: `unzip` `python3.10-venv` `python3-dev` `python3.8-venv` `build-essential` `git` `cmake`
 
 
 **1. Python dependencies for this repo:**
