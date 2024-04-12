@@ -1,6 +1,6 @@
 # Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
 path: <DATASET_DIR_PLACEHOLDER> # dataset root dir
-train: train_pbr_reduced_coco/images # train images (relative to 'path') 50000 images
+train: train_pbr_coco/images # train images (relative to 'path') 50000 images
 val: test_primesense_coco/images # val images (relative to 'path') 1000 images
 test: # test images (optional)
 

@@ -56,13 +56,22 @@ However, newer methods now represent state of the art:
     - Github: no implementations yet, [Papers with code](https://paperswithcode.com/paper/tuned-contrastive-learning)
 
 
+### Surveys
+
+[Survey on 6D object detection](https://www.mdpi.com/2313-433X/8/3/53) (2022) including T-LESS, Fraunhofer-Institut.
+
 ### Model Architectures
-
-TODO
-
-Github: 
+ 
+ **Hand crafted Detection Models**
  - [YOLOV8](https://github.com/ultralytics/ultralytics) (2023) - easy to use for developers!
- - [YOLOV9](https://github.com/WongKinYiu/yolov9) (2024)
+ - [YOLOV9](https://github.com/WongKinYiu/yolov9) (2024), not from ultralytics.
+ - [mmdetection](https://github.com/open-mmlab/mmdetection/tree/main) model zoo can be explored to find a appropriate architecture.
+ 
+ **DE**tection **TR**ansformer
+ - [RT-DETR](https://github.com/lyuwenyu/RT-DETR) (2023) Real Time Detection Transformer, **SOTA accuracy, better than yolov8x / yolov8l described in paper**. Paper: [ARCXIV](https://arxiv.org/abs/2304.08069)
+ - [DETR](https://github.com/facebookresearch/detr) (2020) - Facebook AI, a Transformer based Detection Architecture. [This article](https://medium.com/@faheemrustamy/detection-transformer-detr-vs-yolo-for-object-detection-baeb3c50bc3) from 2023 concludes that DETR is slower but results in **better accuracy than yolov8n**. Yolov8n achieved 55 FPS for the same task, while DETR ran at 15 FPS. No Git commits to DETR have been pushed since 2020.
+ 
+
 
 ### Preprocessing
 
