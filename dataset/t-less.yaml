@@ -1,0 +1,39 @@
+# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
+path: <DATASET_DIR_PLACEHOLDER> # dataset root dir
+train: <TRAIN_DIR_PLACEHOLDER> # train images (relative to 'path')
+val: <VAL_DIR_PLACEHOLDER> # val images (relative to 'path')
+test: <TEST_DIR_PLACEHOLDER> # test images (optional)
+
+# Classes
+names:
+  0: 1a
+  1: 2a
+  2: 3a
+  3: 4a
+  4: 5a
+  5: 6a
+  6: 7a
+  7: 8a
+  8: 9a
+  9: 10a
+  10: 11a
+  11: 12a
+  12: 13a
+  13: 14a
+  14: 15a
+  15: 16a
+  16: 17a
+  17: 18a
+  18: 19a
+  19: 20a
+  20: 21a
+  21: 22a
+  22: 23a
+  23: 24a
+  24: 25a
+  25: 26a
+  26: 27a
+  27: 28a
+  28: 29a
+  29: 30a
+
