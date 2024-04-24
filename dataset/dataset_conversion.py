@@ -31,6 +31,9 @@ def convert_bop_to_coco(unzipped_dataset: Path, target_path: Path):
 
     scenes.sort()
     print(Fore.GREEN + f"Converting BOP dataset {unzipped_dataset.stem} to COCO format." + Fore.RESET)
+    ###########################
+    # labels_set = set()
+    ###########################    
     for scene in tqdm(scenes):
         # get list of all rgb images in the scene (viewpoints)
         rgb_images = list(scene.glob("rgb/*.jpg")) + list(scene.glob("rgb/*.png"))
@@ -68,7 +71,7 @@ def convert_bop_to_coco(unzipped_dataset: Path, target_path: Path):
             # get object ids as labels for the scene
             labels_list = list()
             for obj_info in scene_gt[key]:
-                labels_list.append(obj_info["obj_id"])
+                labels_list.append(obj_info["obj_id"] - 1)
 
             # get the bounding boxes for the objects in the viewpoint from scene_gt_info
             # expect the following keys in the list item: 
@@ -80,6 +83,11 @@ def convert_bop_to_coco(unzipped_dataset: Path, target_path: Path):
             # Load the image using OpenCV for debugging the bounding box drawing
             # rgb_image = cv.imread(str(rgb_image_path))
 
+            ##########################
+            # labels_set = set(labels_list).union(labels_set)
+            # continue
+        
+            ##########################
             for label_index, object in enumerate(viewpoint_obj_list):
                 if object["bbox_visib"][0] == -1:
                     continue
@@ -134,6 +142,10 @@ def convert_bop_to_coco(unzipped_dataset: Path, target_path: Path):
             subprocess.run(["cp", str(rgb_image_path), str(image_path)])
             with open(label_path, "w") as f:
                 f.writelines(labels_list_str)
+    #########################
+    # print(f"Labels set: {labels_set}")
+    # return
+    #########################
     
     print(f"Images saved to {target_path}\n")
     return

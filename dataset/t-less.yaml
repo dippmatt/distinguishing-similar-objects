@@ -1,40 +1,39 @@
 # Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
 path: <DATASET_DIR_PLACEHOLDER> # dataset root dir
-train: train_pbr_coco/images # train images (relative to 'path') 50000 images
-val: test_primesense_coco/images # val images (relative to 'path') 1000 images
-test: # test images (optional)
+train: <TRAIN_DIR_PLACEHOLDER> # train images (relative to 'path')
+val: <VAL_DIR_PLACEHOLDER> # val images (relative to 'path')
+test: <TEST_DIR_PLACEHOLDER> # test images (optional)
 
 # Classes
 names:
-  0: 0a
-  1: 1a
-  2: 2a
-  3: 3a
-  4: 4a
-  5: 5a
-  6: 6a
-  7: 7a
-  8: 8a
-  9: 9a
-  10: 10a
-  11: 11a
-  12: 12a
-  13: 13a
-  14: 14a
-  15: 15a
-  16: 16a
-  17: 17a
-  18: 18a
-  19: 19a
-  20: 20a
-  21: 21a
-  22: 22a
-  23: 23a
-  24: 24a
-  25: 25a
-  26: 26a
-  27: 27a
-  28: 28a
-  29: 29a
-  30: 30a
+  0: 1a
+  1: 2a
+  2: 3a
+  3: 4a
+  4: 5a
+  5: 6a
+  6: 7a
+  7: 8a
+  8: 9a
+  9: 10a
+  10: 11a
+  11: 12a
+  12: 13a
+  13: 14a
+  14: 15a
+  15: 16a
+  16: 17a
+  17: 18a
+  18: 19a
+  19: 20a
+  20: 21a
+  21: 22a
+  22: 23a
+  23: 24a
+  24: 25a
+  25: 26a
+  26: 27a
+  27: 28a
+  28: 29a
+  29: 30a
 

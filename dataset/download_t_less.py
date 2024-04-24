@@ -2,7 +2,7 @@ import subprocess
 from pathlib import Path
 from colorama import Fore
 from dataset_conversion import convert_bop_to_coco
-from create_dataset_subset import reduce_dataset
+from create_dataset_subset import reduce_dataset    
 
 
 def download_dataset(url: str, target_path: Path):
@@ -75,7 +75,7 @@ def _main():
         print(Fore.GREEN + f"Found {len(reduced_test_images)} as reduced training images. Skipping reduction." + Fore.RESET)
     else:
         if not reduced_training_path.exists():
-            reduce_dataset(converted_training_path, reduced_training_path, 0.3, 42)
+            reduce_dataset(converted_training_path, reduced_training_path, 0.1, 42)
 
     return
 

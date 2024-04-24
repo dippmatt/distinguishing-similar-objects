@@ -4,13 +4,17 @@ runs/
 third_party/
 yolov8*.pt
 __pycache__
-dataset/t-less-reduced_gen.yaml
 
 dataset/tless_test_primesense_bop19.zip
+dataset/tless_train_pbr.zip
+
 dataset/test_primesense/
 dataset/test_primesense_coco/
 
-dataset/tless_train_pbr.zip
 dataset/train_pbr/
 dataset/train_pbr_coco/
 dataset/train_pbr_reduced_coco/
+
+dataset/gen_config/
+
+dataset/val_pbr_coco/
