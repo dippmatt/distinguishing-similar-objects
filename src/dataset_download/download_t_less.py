@@ -8,7 +8,7 @@ from create_dataset_subset import reduce_dataset
 def download_dataset(url: str, target_path: Path):
     dataset_pwd = target_path.parent
     if not target_path.exists():
-        subprocess.run(["wget", "-P", str(target_path), url], cwd=dataset_pwd)
+        subprocess.run(["wget", "-P", str(dataset_pwd), url], cwd=dataset_pwd)
     else:
         print(Fore.GREEN + f"Skipping download of {target_path}.")
         print(Fore.RESET + f"{target_path} already exists.")
@@ -25,7 +25,7 @@ def unzip_dataset_and_convert(zipped_path: Path, target_path: Path):
 # Get the BOP dataset, rendered scenes of T-LESS objects
 
 def _main():
-    dataset_dir = Path(__file__).resolve().parent
+    dataset_dir = (Path(__file__).resolve().parent / Path("..", "..", "dataset")).resolve()
 
     bop_traing_url = "https://bop.felk.cvut.cz/media/data/bop_datasets/tless_train_pbr.zip"
     bop_test_url = "https://bop.felk.cvut.cz/media/data/bop_datasets/tless_test_primesense_bop19.zip"

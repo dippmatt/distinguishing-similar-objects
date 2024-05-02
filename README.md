@@ -18,10 +18,12 @@ If using Python <= 3.8 only one virtual environment is required.
 
 ## Setup for Ubuntu 22.04
 
-Debian Packages: `unzip` `python3.10-venv` `python3-dev` `python3.8-venv` `build-essential` `git` `cmake`
+Debian Packages: `unzip` `python3.10-venv` `python3-dev` `build-essential` `git` `cmake` `imagemagick`
 
 
 **1. Python dependencies for this repo:**
+
+These dependencies assume Cuda 12 and Python 3.10.
 
 - `python3 -m venv venv`
 
