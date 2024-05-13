@@ -1,3 +1,13 @@
+""" Convert the BOP dataset to YOLO format.
+
+This script converts the BOP dataset to YOLO format. Custom implementation (old apporach).
+See convert_coco2yolo.py for a similar implementation using the ultralytics library ().
+This is a custom scripting implementation and creates the bounding boxes 
+as labels directly from a BOP TLESS dataset.
+
+"""
+
+
 import json
 from pathlib import Path
 import subprocess

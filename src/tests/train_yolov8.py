@@ -2,37 +2,35 @@
 from ultralytics import YOLO
 from pathlib import Path
 
-MODEL = 'yolov8n'  # yolov5s, yolov5m, yolov5l, yolov5x, custom 
-REDUCED_DATASET = False
+MODEL = 'yolov8n'  # yolov5n, yolov5s, yolov5m, yolov5l, yolov5x, custom 
+REDUCED_DATASET = True
 
-EPOCHS = 100
-# use 720 / 736?
+EPOCHS = 35
+
 IMAGE_REZ = 736
-BATCH_SIZE = 40
+BATCH_SIZE = 16
 
-PRETRAINED = False
+LOCAL_PRETRAINED = False
 # ADAPT TO YOUR PATH
-BEST_WEIGHTS_PATH = "/home/matthias/Documents/distinguishing-similar-objects/runs/detect/train4/weights/best.pt"
+if LOCAL_PRETRAINED:
+    BEST_WEIGHTS_PATH = "/home/matthias/Documents/distinguishing-similar-objects/runs/detect/train2/weights/best.pt"
 
 
 if REDUCED_DATASET:
     config_name = "t-less-reduced"
     train_dir_name = "train_pbr_reduced_coco"
-    #val_dir_name = "val_pbr_coco"
-    val_dir_name = "test_primesense_coco"
-    test_dir_name = "test_primesense_coco"
 else:
     config_name = "t-less-full"
     train_dir_name = "train_pbr_coco"
-    #val_dir_name = "val_pbr_coco"
-    val_dir_name = "test_primesense_coco"
-    test_dir_name = "test_primesense_coco"
+
+val_dir_name = "test_primesense_coco"
+test_dir_name = "test_primesense_coco"
     
 # Output directory name for the training run
 # UNUSED RIGHT NOW
-output_dir = Path(__file__).resolve().parent / Path("..", "..", "runs", config_name)
-if not output_dir.exists():
-    output_dir.mkdir(parents=True)
+# output_dir = Path(__file__).resolve().parent / Path("..", "..", "runs", config_name)
+# if not output_dir.exists():
+#     output_dir.mkdir(parents=True)
 
 # Path to the dataset definition template
 dataset_definition_template = Path(__file__).resolve().parent / Path("..", "..", "dataset", "t-less.yaml")
@@ -44,9 +42,13 @@ dataset_definition = dataset_definition_dir / Path(config_name + "_gen.yaml")
 
 # path to dataset directory
 dataset_directory = (Path(__file__).resolve().parent / Path("..", "..", "dataset")).resolve()
-train_dir = Path(train_dir_name, "images")
-val_dir = Path(val_dir_name, "images")
-test_dir = Path(test_dir_name, "images")
+
+train_dir = train_dir_name
+val_dir = val_dir_name
+test_dir = test_dir_name
+# train_dir = Path(train_dir_name, "images")
+# val_dir = Path(val_dir_name, "images")
+# test_dir = Path(test_dir_name, "images")
 
 assert dataset_definition.parent.exists(), f"{dataset_definition.parent} does not exist"
 assert dataset_definition_template.exists(), f"{dataset_definition_template} does not exist"
@@ -80,7 +82,7 @@ model = YOLO(MODEL + '.yaml')
 
 # Load a pretrained YOLO model (recommended for training)
 # use own pretrained model, adapt path!
-if PRETRAINED:
+if LOCAL_PRETRAINED:
     model = YOLO(BEST_WEIGHTS_PATH)
 # use ultralytics pretrained model
 else:

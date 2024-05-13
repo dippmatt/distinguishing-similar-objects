@@ -75,7 +75,7 @@ def _main():
         print(Fore.GREEN + f"Found {len(reduced_test_images)} as reduced training images. Skipping reduction." + Fore.RESET)
     else:
         if not reduced_training_path.exists():
-            reduce_dataset(converted_training_path, reduced_training_path, 0.1, 42)
+            reduce_dataset(converted_training_path, reduced_training_path, 0.4, 42)
 
     return
 
