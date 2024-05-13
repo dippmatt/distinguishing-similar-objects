@@ -25,7 +25,7 @@ def unzip_dataset_and_convert(zipped_path: Path, target_path: Path):
 # Get the BOP dataset, rendered scenes of T-LESS objects
 
 def _main():
-    dataset_dir = (Path(__file__).resolve().parent / Path("..", "..", "dataset")).resolve()
+    dataset_dir = (Path(__file__).resolve().parent / Path("..", "..", "dataset", "t-less-original")).resolve()
 
     bop_traing_url = "https://bop.felk.cvut.cz/media/data/bop_datasets/tless_train_pbr.zip"
     bop_test_url = "https://bop.felk.cvut.cz/media/data/bop_datasets/tless_test_primesense_bop19.zip"

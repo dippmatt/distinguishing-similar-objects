@@ -41,7 +41,7 @@ if not dataset_definition_dir.exists():
 dataset_definition = dataset_definition_dir / Path(config_name + "_gen.yaml")
 
 # path to dataset directory
-dataset_directory = (Path(__file__).resolve().parent / Path("..", "..", "dataset")).resolve()
+dataset_directory = (Path(__file__).resolve().parent / Path("..", "..", "dataset", "t-less-original")).resolve()
 
 train_dir = train_dir_name
 val_dir = val_dir_name
