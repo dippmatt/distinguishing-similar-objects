@@ -1,7 +1,7 @@
 """ Convert the BOP dataset to YOLO format.
 
 This script converts the BOP dataset to YOLO format. Custom implementation (old apporach).
-See convert_coco2yolo.py for a similar implementation using the ultralytics library ().
+See convert_coco2yolo_segm.py for a similar implementation using the ultralytics library ().
 This is a custom scripting implementation and creates the bounding boxes 
 as labels directly from a BOP TLESS dataset.
 
@@ -15,10 +15,10 @@ import subprocess
 from tqdm import tqdm
 from colorama import Fore
 
-def convert_bop_to_coco(unzipped_dataset: Path, target_path: Path):
+def convert_bop_to_yolo(unzipped_dataset: Path, target_path: Path):
     assert unzipped_dataset.exists(), f"{unzipped_dataset} does not exist"
     
-    # Create the directories for the COCO dataset
+    # Create the directories for the YOLO dataset
     if not target_path.exists():
         target_path.mkdir()
     assert target_path.exists(), f"{target_path} does not exist"
@@ -40,7 +40,7 @@ def convert_bop_to_coco(unzipped_dataset: Path, target_path: Path):
             scenes.append(Path(obj_dir))
 
     scenes.sort()
-    print(Fore.GREEN + f"Converting BOP dataset {unzipped_dataset.stem} to COCO format." + Fore.RESET)
+    print(Fore.GREEN + f"Converting BOP dataset {unzipped_dataset.stem} to YOLO format." + Fore.RESET)
     ###########################
     # labels_set = set()
     ###########################    
@@ -111,7 +111,7 @@ def convert_bop_to_coco(unzipped_dataset: Path, target_path: Path):
                 # rgb_image = cv.rectangle(rgb_image, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
                 # rgb_image = cv.putText(rgb_image, str(labels_list[label_index]), (x_min, y_min), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-                # coco labels for the objects use [center_x, center_y, width, height] format normalized to [0, 1]
+                # yolo labels for the objects use [center_x, center_y, width, height] format normalized to [0, 1]
                 # we need to convert the bounding box to this format
                 # get the bounding box center
                 center_x = (x_min + x_max) / 2

@@ -1,7 +1,7 @@
 import subprocess
 from pathlib import Path
 from colorama import Fore
-from dataset_conversion import convert_bop_to_coco
+from convert_bop2yolo_bbox import convert_bop_to_yolo
 from create_dataset_subset import reduce_dataset    
 
 
@@ -51,7 +51,7 @@ def _main():
                 download_dataset(bop_traing_url, zipped_training_path)
             # Unzip the dataset and convert it to COCO format
             unzip_dataset_and_convert(zipped_training_path, extracted_training_path)
-        convert_bop_to_coco(extracted_training_path, converted_training_path)
+        convert_bop_to_yolo(extracted_training_path, converted_training_path)
 
     # find all jpg and png files in the converted_test_path
     test_images = list(converted_test_path.rglob("*.jpg")) + list(converted_test_path.rglob("*.png"))
@@ -66,7 +66,7 @@ def _main():
                 download_dataset(bop_test_url, zipped_test_path)
             # Unzip the dataset and convert it to COCO format
             unzip_dataset_and_convert(zipped_test_path, extracted_test_path)
-        convert_bop_to_coco(extracted_test_path, converted_test_path)
+        convert_bop_to_yolo(extracted_test_path, converted_test_path)
 
     # Create a reduced dataset for training, since the 50000 images can be too much
     reduced_training_path = dataset_dir / Path("train_pbr_reduced_coco")

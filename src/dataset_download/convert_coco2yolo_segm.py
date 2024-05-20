@@ -1,7 +1,7 @@
 """ Convert the BOP dataset to YOLO format.
 
 This script converts the BOP dataset to YOLO format. Ultralytics implementation (NEW APPROACH).
-See dataset_conversion.py for a similar implementation using the custom scripting.
+See convert_bop2yolo_bbox.py for a similar implementation using the custom scripting.
 This implementation and creates the segmentation labels from a BOP TLESS dataset, 
 once the COCO annotations were created using BOP Toolkit (see https://github.com/thodan/bop_toolkit/blob/master/scripts/calc_gt_coco.py).
 
