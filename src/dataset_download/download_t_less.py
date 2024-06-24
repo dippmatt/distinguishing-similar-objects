@@ -26,6 +26,8 @@ def unzip_dataset_and_convert(zipped_path: Path, target_path: Path):
 
 def _main():
     dataset_dir = (Path(__file__).resolve().parent / Path("..", "..", "dataset", "t-less-original")).resolve()
+    if not dataset_dir.exists():
+        dataset_dir.mkdir(parents=True)
 
     bop_traing_url = "https://bop.felk.cvut.cz/media/data/bop_datasets/tless_train_pbr.zip"
     bop_test_url = "https://bop.felk.cvut.cz/media/data/bop_datasets/tless_test_primesense_bop19.zip"
