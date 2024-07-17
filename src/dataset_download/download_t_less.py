@@ -29,8 +29,8 @@ def _main():
     if not dataset_dir.exists():
         dataset_dir.mkdir(parents=True)
 
-    bop_traing_url = "https://bop.felk.cvut.cz/media/data/bop_datasets/tless_train_pbr.zip"
-    bop_test_url = "https://bop.felk.cvut.cz/media/data/bop_datasets/tless_test_primesense_bop19.zip"
+    bop_traing_url = "https://huggingface.co/datasets/bop-benchmark/datasets/resolve/main/tless/tless_train_pbr.zip"
+    bop_test_url = "https://huggingface.co/datasets/bop-benchmark/datasets/resolve/main/tless/tless_test_primesense_bop19.zip"
 
     zipped_training_path = dataset_dir / Path("tless_train_pbr.zip")
     extracted_training_path = dataset_dir / Path("train_pbr")

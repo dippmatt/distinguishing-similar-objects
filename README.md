@@ -46,3 +46,6 @@ These dependencies assume Cuda 12 and Python 3.10.
 Manual installation
 Install venv or the virtual environment of your choice: `sudo apt-get install -y `
 Run `python3 -m venv venv` to create the environment.
+
+## Notes:
+- ultralytics repository in docker image (`/usr/src/ultralytics`) is replaced with modified files.

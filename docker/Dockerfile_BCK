@@ -1,6 +1,6 @@
-FROM ultralytics/ultralytics:latest
+FROM ultralytics/ultralytics:8.2.26
 
 # Install additional dependencies
 RUN apt-get update && apt-get install -y nano imagemagick
 RUN python3 -m pip install tqdm colorama
-# RUN python3 -m pip uninstall -y albumentations
+RUN python3 -m pip uninstall -y albumentations

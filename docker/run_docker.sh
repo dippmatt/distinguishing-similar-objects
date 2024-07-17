@@ -20,9 +20,8 @@ docker run \
 -it \
 --ipc=host \
 --rm \
---gpus all \
 --volume="$SCRIPTDIR/..:/dsimo:rw" \
 --volume="$SCRIPTDIR/startup.sh:/startup.sh:ro" \
 --entrypoint /startup.sh \
---name=dsimo_v0 dsimo \
-#sh -c "command to replace ultralytics with my own implementation"
+--name=dsimo_v2_container dsimo_v2
+#--gpus all \

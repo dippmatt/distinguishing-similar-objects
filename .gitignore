@@ -5,8 +5,10 @@ third_party/
 yolov8*.pt
 __pycache__
 
-dataset/t-less-custom/
-dataset/t-less-original/
+dataset/*
+!dataset/README.md
+!dataset/t-less.yaml
 
-dataset/gen_config/
+fast_sam_calibration/
 
+*.pt

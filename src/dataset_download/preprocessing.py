@@ -8,14 +8,18 @@ like small mask cutouts of the object after, e.g., applying harris corner detect
 
 """
 from pycocotools import mask as mask_utils
-from segment_anything import SamAutomaticMaskGenerator, SamPredictor, sam_model_registry
+#from segment_anything import SamAutomaticMaskGenerator, SamPredictor, sam_model_registry
+from ultralytics import FastSAM
+from ultralytics.models.fastsam import FastSAMPrompt
 from pathlib import Path
 import subprocess
 import tqdm
 import cv2
 import matplotlib.pyplot as plt
+from PIL import Image
 import numpy as np
 
+USE_FAST_SAM = True
 device = "cuda"
 
 # Largest model, 2.6 GB
@@ -25,6 +29,8 @@ model_type = "vit_h"
 # Smallest model, 375 MB
 # model_type = "vit_b"
 
+# SAM
+
 # Largest model, 2.6 GB
 checkpoint = "/home/matthias/Downloads/sam_vit_h_4b8939.pth"
 # Medium model, 1.2 GB
@@ -32,16 +38,34 @@ checkpoint = "/home/matthias/Downloads/sam_vit_h_4b8939.pth"
 # Smallest model, 375 MB
 # checkpoint = "/home/matthias/Downloads/sam_vit_b_01ec64.pth"
 
-sam = sam_model_registry[model_type](checkpoint=checkpoint)
-sam.to(device=device)
-mask_generator = SamAutomaticMaskGenerator(sam)
-predictor = SamPredictor(sam)
+# sam = sam_model_registry[model_type](checkpoint=checkpoint)
+# sam.to(device=device)
+# mask_generator = SamAutomaticMaskGenerator(sam)
+# predictor = SamPredictor(sam)
+
+# FastSAM
+
+model = FastSAM("FastSAM-x.pt")  # or FastSAM-s.pt
 
 
 # These are the directories the script exists to find in original_dataset_dir
 # In each of them, a dataset in YOLO annotation format is expected (including images, labels subdirectories)
-TRAIN_DATASET_NAME = "train_pbr_reduced_coco"
+TRAIN_DATASET_NAME = "train_pbr_coco"
 TEST_DATASET_NAME = "test_primesense_coco"
+
+def get_fast_sam_anns(image_path: Path):
+    anns = model(str(image_path), retina_masks=True, imgsz=736, conf=0.7, iou=0.8)
+    annotation = anns[0]
+    all_masks = list()
+    for mask in annotation.masks:
+        all_masks.append(mask.data.cpu().squeeze().numpy())
+    # sort the masks by area
+    all_masks = sorted(all_masks, key=(lambda x: x.sum()), reverse=True)
+    # filter out any masks that are larger than 0.18 of the image area
+    all_masks = [mask for mask in all_masks if mask.sum() < 0.10 * mask.shape[0] * mask.shape[1]]
+    all_masks_np = np.stack(all_masks)
+
+    return all_masks_np
 
 
 def process_images(original_image_dir: Path, custom_image_dir: Path, set_name: str):
@@ -58,61 +82,36 @@ def process_images(original_image_dir: Path, custom_image_dir: Path, set_name: s
         # convert to grayscale
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         
-        # Get segmentation option 1: use mask generator
-        ann_list = mask_generator.generate(img)
-        ann_list = sorted(ann_list, key=(lambda x: x['stability_score']), reverse=True)
-        # limit to 40 best masks
-        ann_list = ann_list[:40]
-        # convertz all ann_list[i]['segmentation'] into one np array, the shape should be (number of masks, height, width)
-        masks = np.stack([ann['segmentation'] for ann in ann_list])
-        # save the masks as binary file, compress with np.savez_compressed
-        np.savez_compressed(str(custom_image_dir / f"{image_path.stem}_masks.npz"), masks=masks)
+        if not USE_FAST_SAM:
+            # SAM model [legacy]
+            # Get segmentation option 1: use mask generator
+            ann_list = mask_generator.generate(img)
+            ann_list = sorted(ann_list, key=(lambda x: x['stability_score']), reverse=True)
+            # limit to 40 best masks
+            ann_list = ann_list[:40]
+            # convertz all ann_list[i]['segmentation'] into one np array, the shape should be (number of masks, height, width)
+            masks = np.stack([ann['segmentation'] for ann in ann_list])
+            # save the masks as binary file, compress with np.savez_compressed
+            np.savez_compressed(str(custom_image_dir / f"{image_path.stem}_masks.npz"), masks=masks)
+        else:
+            # get stacked array of shape (number of masks, height, width)
+            masks = get_fast_sam_anns(image_path) # Fast SAM model            
+            # convert to binary mask
+            masks = masks > 0.5
+
+            out_mask = np.zeros((masks.shape[1], masks.shape[2]), dtype=np.uint8)
+            mask_range = 128 // masks.shape[0]
+            for i in range(masks.shape[0]):
+                out_mask[masks[i]] = int((i * mask_range) + 128)
+            
+            image = Image.fromarray(out_mask)
+            image.save(str(custom_image_dir / f"{image_path.stem}.png"))
+            
+        
         # load the masks
         #loaded_masks = np.load(str(custom_image_dir / f"{image_path.stem}_masks.npz"))
-        continue
-        import sys;sys.exit(0)
-
-        torch.stack([x==i for i in range(x.max()+1)], dim=1).sum(dim=2)
-
-        # convert to pandas dataframe
-        # print(ann[0].keys())
-        import pandas as pd
-        df = pd.DataFrame(ann)
-        df.to_parquet(str(custom_image_dir / 'saved_dictionary.parquet.gzip'))
-        read_df = pd.read_parquet(str(custom_image_dir / 'saved_dictionary.parquet.gzip'))
-        # convert back to list of dictionaries
-        test_list = read_df.to_dict(orient='records')
-        # print(ann[0].keys())
-        # print(df.head())
-        # import sys;sys.exit(0)
-        # import pickle 
-
-        # # save 50 masks with highest stability score
-        # with open(str(custom_image_dir / 'saved_dictionary.pkl'), 'wb') as f:
-        #     pickle.dump(ann[:50], f)
-                
-        # with open(str(custom_image_dir / 'saved_dictionary.pkl'), 'rb') as f:
-        #     loaded_list = pickle.load(f)
-        # for mask in loaded_list:
-        #     print(mask.keys())
-
-        plt.figure(figsize=(20,20))
-        plt.imshow(img)
-        show_anns(test_list)
-        plt.axis('off')
-        plt.show()
-        # save the plot
-        # plt.savefig("/home/matthias/Documents/DIS_SIM_OBJ_DOKU/experiments/SAM_ann_stablility_score>0.98_predicted_iou>0.98.png")
-        
-        import sys;sys.exit(0)
-
-        if i > 100:
-            break
-        else:
-            i += 1
-        
-        
-    import sys;sys.exit(0)
+    
+    return
     subprocess.run(["cp", str(image), str(custom_image_dir / image.name)])
 
 
@@ -211,7 +210,7 @@ def _main():
 
 
     process_images(training_images_in, training_images_out, "train")
-    process_images(test_images_in, test_images_out, "test")
+    # process_images(test_images_in, test_images_out, "test")
     # copy labels
     subprocess.run(["cp", "-r", str(training_labels_in), str(training_labels_out)])
     subprocess.run(["cp", "-r", str(test_labels_in), str(test_labels_out)])
