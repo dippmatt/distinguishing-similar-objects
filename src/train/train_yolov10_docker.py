@@ -7,18 +7,18 @@ FIVE_CH_FROM_CHECKPOINT = False
 FROM_CHECKPOINT = True
 RESUME = True
 
-MODEL = 'yolov8l'  # yolov8c, yolov8n, yolov8s, yolov8m, yolov8l, yolov8x
+MODEL = 'yolov10n'  # yolov10n, yolov10s, yolov10m, yolov10l, yolov10x
 EPOCHS = 30
 IMAGE_REZ = 736
-BATCH_SIZE = 12
+BATCH_SIZE = 32
 
 # Initialize new model
 #model = YOLO(MODEL +".yaml")
 # Dont use pretrained weights, because they dont fit the modified model
 if FIVE_CH_FROM_CHECKPOINT:
-    model = YOLO('/dsimo/5k_backbone.pt')
+    model = YOLO('/dsimo...pt')
 elif FROM_CHECKPOINT:
-    model = YOLO('/dsimo/runs/detect/train6/weights/last.pt')
+    model = YOLO('/dsimo/runs/detect/train/weights/last.pt')
 elif PARAM_COUNT_5_CH:
     model = YOLO(MODEL + '.yaml')
 else:

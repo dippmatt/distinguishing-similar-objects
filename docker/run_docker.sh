@@ -19,9 +19,10 @@ SCRIPTDIR="$( dirname -- "$BASH_SOURCE[0]" )"
 docker run \
 -it \
 --ipc=host \
+--gpus all \
 --rm \
 --volume="$SCRIPTDIR/..:/dsimo:rw" \
 --volume="$SCRIPTDIR/startup.sh:/startup.sh:ro" \
 --entrypoint /startup.sh \
 --name=dsimo_v2_container dsimo_v2
-#--gpus all \
+
